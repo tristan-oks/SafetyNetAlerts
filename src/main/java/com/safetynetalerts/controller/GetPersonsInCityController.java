@@ -17,7 +17,7 @@ public class GetPersonsInCityController {
 	private PersonService personService;
 
 	@GetMapping("/personsincity")
-	public List<Person> getPersonsInCity(@RequestParam final String city) {
+	public List<Person> getPersonsInCity(@RequestParam(name = "city") final String city) {
 		return personService.getPersonsInCity(city);
 	}
 }
