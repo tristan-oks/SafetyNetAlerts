@@ -1,15 +1,9 @@
-package com.safetynetalerts.model;
+package com.safetynetalerts.model.json;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Data;
-
-@Data
-@Component
 public class MedicalRecord {
 	@JsonProperty("firstName")
 	private String firstName;
