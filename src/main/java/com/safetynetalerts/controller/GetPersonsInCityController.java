@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynetalerts.model.json.Person;
@@ -16,8 +16,8 @@ public class GetPersonsInCityController {
 	@Autowired
 	private PersonService personService;
 
-	@GetMapping("/personsincity/{city}")
-	public List<Person> getPersonsInCity(@PathVariable("city") final String city) {
+	@GetMapping("/personsincity")
+	public List<Person> getPersonsInCity(@RequestParam final String city) {
 		return personService.getPersonsInCity(city);
 	}
 }

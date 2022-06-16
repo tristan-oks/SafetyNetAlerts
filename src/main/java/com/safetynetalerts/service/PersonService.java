@@ -15,10 +15,8 @@ public class PersonService {
 	@Autowired
 	private JsonRepository repo;
 	
-
 	public List<Person> getPersons() {
 		System.out.println("get all persons");
-
 		return repo.parseJSONFile("data.json").getPersons();
 	}
 
