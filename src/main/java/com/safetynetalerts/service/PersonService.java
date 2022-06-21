@@ -3,47 +3,34 @@ package com.safetynetalerts.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.safetynetalerts.model.json.ParsedJson;
 import com.safetynetalerts.model.json.Person;
-import com.safetynetalerts.repository.JsonRepository;
+import com.safetynetalerts.repository.PersonRepository;
 
 @Service
 public class PersonService {
 	@Autowired
-	private JsonRepository repo;
+	private PersonRepository repo;
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public List<Person> getPersons() {
-		System.out.println("get all persons");
-		return repo.parseJSONFile("data.json").getPersons();
-	}
-
-	public List<Person> getPersonsInCity(String city) {
-		List<Person> personsInCity = new ArrayList<Person>();
-		ParsedJson result = repo.parseJSONFile("data.json");
-		System.out.println("city : " + city);
-
-		for (Person person : result.getPersons()) {
-			System.out.println("iterate : " + person + ", city : " + person.getCity());
-			if (person.getCity().equals(city)) {
-				System.out.println("added : " + person);
-				personsInCity.add(person);
-			}
-		}
-		return personsInCity;
+		logger.info("get all persons");
+		return repo.getPersons();
 	}
 
 	public List<String> getEmailsOfPersonsInCity(String city) {
 		List<String> emails = new ArrayList<String>();
-		ParsedJson result = repo.parseJSONFile("data.json");
-		System.out.println("emails city : " + city);
+				logger.info("emails city : " + city);
 
-		for (Person person : result.getPersons()) {
-			System.out.println("iterate : " + person + ", city : " + person.getCity());
+		for (Person person : repo.getPersons()) {
+			logger.info("iterate : " + person + ", city : " + person.getCity());
 			if (person.getCity().equals(city)) {
-				System.out.println("added : " + person);
+				logger.info("added : " + person);
 				emails.add(person.getEmail());
 			}
 		}

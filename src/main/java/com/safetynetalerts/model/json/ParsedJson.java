@@ -10,7 +10,7 @@ public class ParsedJson {
 	@JsonProperty("persons")
 	private List<Person> persons;
 	@JsonProperty("firestations")
-	private List<FireStation> fireStations;
+	private List<Firestation> firestations;
 	@JsonProperty("medicalrecords")
 	private List<MedicalRecord> medicalRecords;
 
@@ -22,12 +22,12 @@ public class ParsedJson {
 		this.persons = persons;
 	}
 
-	public List<FireStation> getFireStations() {
-		return fireStations;
+	public List<Firestation> getFirestations() {
+		return firestations;
 	}
 
-	public void setFireStations(List<FireStation> fireStations) {
-		this.fireStations = fireStations;
+	public void setFireStations(List<Firestation> firestations) {
+		this.firestations = firestations;
 	}
 
 	public List<MedicalRecord> getMedicalRecords() {

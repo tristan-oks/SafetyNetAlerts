@@ -3,7 +3,7 @@ package com.safetynetalerts.model.json;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class FireStation {
+public class Firestation {
 	@JsonProperty("address")
 	private String address;
 	@JsonProperty("station")
