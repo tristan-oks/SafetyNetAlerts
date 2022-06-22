@@ -17,10 +17,10 @@ public class PersonController {
 	private PersonService personService;
 
 	@GetMapping("/persons")
-	public List<Person> getPersons(){
+	public List<Person> getPersons() {
 		return personService.getPersons();
 	}
-	
+
 	@GetMapping("/communityEmail")
 	public List<String> getEmailsOfPersonsInCity(@RequestParam(name = "city") final String city) {
 		return personService.getEmailsOfPersonsInCity(city);

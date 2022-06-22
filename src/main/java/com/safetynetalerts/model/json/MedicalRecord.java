@@ -1,8 +1,5 @@
 package com.safetynetalerts.model.json;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -58,7 +55,5 @@ public class MedicalRecord {
 		this.allergies = allergies;
 	}
 
-	public int getAge() {
-	return (int) ChronoUnit.YEARS.between(LocalDate.parse(birthDate,DateTimeFormatter.ofPattern("mm/dd/yyyy")), LocalDate.now());
-	}
+
 }

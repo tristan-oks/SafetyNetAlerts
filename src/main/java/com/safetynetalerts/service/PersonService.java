@@ -15,6 +15,7 @@ import com.safetynetalerts.repository.PersonRepository;
 public class PersonService {
 	@Autowired
 	private PersonRepository repo;
+	
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -25,7 +26,7 @@ public class PersonService {
 
 	public List<String> getEmailsOfPersonsInCity(String city) {
 		List<String> emails = new ArrayList<String>();
-				logger.info("emails city : " + city);
+		logger.info("emails city : " + city);
 
 		for (Person person : repo.getPersons()) {
 			logger.info("iterate : " + person + ", city : " + person.getCity());
@@ -36,4 +37,6 @@ public class PersonService {
 		}
 		return emails;
 	}
+
+	
 }

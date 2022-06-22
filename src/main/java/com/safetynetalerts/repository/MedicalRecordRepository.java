@@ -5,15 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.safetynetalerts.model.json.Firestation;
+import com.safetynetalerts.model.json.MedicalRecord;
 
 @Component
-public class FirestationRepository {
+public class MedicalRecordRepository {
 	@Autowired
 	private JsonRepository repo;
 
-	public List<Firestation> getFirestations() {
-		return repo.parseJSONFile("data.json").getFirestations();
+	public List<MedicalRecord> getMedicalRecords() {
+		return repo.parseJSONFile("data.json").getMedicalRecords();
 	}
-
 }
