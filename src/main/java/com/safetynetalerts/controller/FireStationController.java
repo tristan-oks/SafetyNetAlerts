@@ -1,5 +1,7 @@
 package com.safetynetalerts.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,5 +20,11 @@ public class FireStationController {
 	public PersonsInFirestationWithCount getPersonsInFirestationWithCount(
 			@RequestParam(name = "stationNumber") final int station) {
 		return firestationService.personsInFirestationWithCount(station);
+	}
+	
+	@GetMapping("/phoneAlert")
+	public List<String> getPhonesOfPersonsInFirestation(
+			@RequestParam(name = "firestation") final int station) {
+		return firestationService.getPhoneOfPersonsInFirestation(station);
 	}
 }

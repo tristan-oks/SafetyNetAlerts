@@ -3,6 +3,7 @@ package com.safetynetalerts.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,7 @@ import com.safetynetalerts.model.json.MedicalRecord;
 import com.safetynetalerts.repository.MedicalRecordRepository;
 
 @Service
-public class MedicalRecordService implements IMedicalRecordService{
+public class MedicalRecordService implements IMedicalRecordService {
 	@Autowired
 	private MedicalRecordRepository repo;
 
@@ -36,4 +37,29 @@ public class MedicalRecordService implements IMedicalRecordService{
 		logger.info("Not Found!");
 		return null;
 	}
+
+	public List<String> getMedications(String firstName, String lastName) {
+		for (MedicalRecord medicalRecord : repo.getMedicalRecords()) {
+			logger.info("iterate : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+			if (medicalRecord.getFirstName().equals(firstName) && medicalRecord.getLastName().equals(lastName)) {
+				logger.info("Found, medications are : " + medicalRecord.getMedications());
+				return medicalRecord.getMedications();
+			}
+		}
+		logger.info("Not Found!");
+		return null;
+	}
+
+	public List<String> getAllergies(String firstName, String lastName) {
+		for (MedicalRecord medicalRecord : repo.getMedicalRecords()) {
+			logger.info("iterate : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+			if (medicalRecord.getFirstName().equals(firstName) && medicalRecord.getLastName().equals(lastName)) {
+				logger.info("Found, allergies are : " + medicalRecord.getAllergies());
+				return medicalRecord.getAllergies();
+			}
+		}
+		logger.info("Not Found!");
+		return null;
+	}
+
 }

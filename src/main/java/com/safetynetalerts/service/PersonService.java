@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.safetynetalerts.model.Child;
 import com.safetynetalerts.model.ChildAlert;
+import com.safetynetalerts.model.Fire;
+import com.safetynetalerts.model.FireWithStationNumber;
 import com.safetynetalerts.model.json.Person;
 import com.safetynetalerts.repository.PersonRepository;
 
@@ -19,6 +21,8 @@ public class PersonService implements IPersonService {
 	private PersonRepository repo;
 	@Autowired
 	private IMedicalRecordService medicalRecordService;
+	@Autowired
+	private IFirestationService firestationService;
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -65,7 +69,7 @@ public class PersonService implements IPersonService {
 		}
 		return childsAtAddress;
 	}
-	
+
 	public List<ChildAlert> getChildsAtAddressWithFamily(String address) {
 		List<Child> childsAtAddress = getChildsAtAddress(address);
 		List<ChildAlert> childsAtAddressWithFamily = new ArrayList<ChildAlert>();
@@ -78,5 +82,28 @@ public class PersonService implements IPersonService {
 			childsAtAddressWithFamily.add(childAlertToAdd);
 		}
 		return childsAtAddressWithFamily;
+	}
+
+	private List<Fire> getFireAtAddress(String address) {
+		List<Fire> fireAtAddress = new ArrayList<Fire>();
+		List<Person> personsAtAddress = getPersonsAtAddress(address);
+		for (Person person : personsAtAddress) {
+			Fire fireToAdd = new Fire();
+			fireToAdd.setFirstName(person.getFirstName());
+			fireToAdd.setLastName(person.getLastName());
+			fireToAdd.setPhone(person.getPhone());
+			fireToAdd.setAge(medicalRecordService.getAge(person.getFirstName(), person.getLastName()));
+			fireToAdd.setMedications(medicalRecordService.getMedications(person.getFirstName(), person.getLastName()));
+			fireToAdd.setAllergies(medicalRecordService.getAllergies(person.getFirstName(), person.getLastName()));
+			fireAtAddress.add(fireToAdd);
+		}
+		return fireAtAddress;
+	}
+
+	public FireWithStationNumber getFireWithStationNumberAtAddress(String address) {
+		FireWithStationNumber fireWithStationNumber = new FireWithStationNumber();
+		fireWithStationNumber.setFire(getFireAtAddress(address));
+		fireWithStationNumber.setStationNumber(firestationService.getFirestationNumber(address));
+		return fireWithStationNumber;
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynetalerts.model.ChildAlert;
+import com.safetynetalerts.model.FireWithStationNumber;
 import com.safetynetalerts.service.IPersonService;
 
 @RestController
@@ -24,5 +25,10 @@ public class PersonController {
 	@GetMapping("/childsAtAddress")
 	public List<ChildAlert> getChildsAtAddressWithFamily(@RequestParam(name = "address") final String address) {
 		return personService.getChildsAtAddressWithFamily(address);
+	}
+
+	@GetMapping("/fire")
+	public FireWithStationNumber getFireWithStationNumber(@RequestParam(name = "address") final String address) {
+		return personService.getFireWithStationNumberAtAddress(address);
 	}
 }

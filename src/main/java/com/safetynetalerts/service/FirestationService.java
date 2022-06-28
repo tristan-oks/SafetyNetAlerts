@@ -38,6 +38,18 @@ public class FirestationService implements IFirestationService {
 		return addresses;
 	}
 
+	public int getFirestationNumber(String address) {
+		for (Firestation firestation : firestationRepo.getFirestations()) {
+			logger.info("iterate : " + firestation);
+			if (firestation.getAddress().equals(address)) {
+				logger.info("found : " + firestation);
+				return firestation.getStation();
+			}
+		}
+		logger.info("Firestation Not found at address! : " + address);
+		return 0;
+	}
+
 	private List<PersonInFirestation> getPersonsInFireStation(int station) {
 		logger.info("get all persons covered by firestation number : " + station);
 
@@ -84,5 +96,15 @@ public class FirestationService implements IFirestationService {
 		personsInFirestationWithCount.setAdults(adults);
 		personsInFirestationWithCount.setChildrens(childrens);
 		return personsInFirestationWithCount;
+	}
+
+	public List<String> getPhoneOfPersonsInFirestation(int station) {
+		List<String> phones = new ArrayList<String>();
+		List<PersonInFirestation> personsInFirestation = getPersonsInFireStation(station);
+		for (PersonInFirestation personInFirestation : personsInFirestation) {
+			phones.add(personInFirestation.getPhone());
+			logger.info("phone added : " + personInFirestation.getPhone());
+		}
+		return phones;
 	}
 }
