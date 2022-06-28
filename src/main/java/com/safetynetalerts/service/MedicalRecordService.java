@@ -13,7 +13,7 @@ import com.safetynetalerts.model.json.MedicalRecord;
 import com.safetynetalerts.repository.MedicalRecordRepository;
 
 @Service
-public class MedicalRecordService {
+public class MedicalRecordService implements IMedicalRecordService{
 	@Autowired
 	private MedicalRecordRepository repo;
 
