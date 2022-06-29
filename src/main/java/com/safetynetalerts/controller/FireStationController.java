@@ -21,10 +21,10 @@ public class FireStationController {
 			@RequestParam(name = "stationNumber") final int station) {
 		return firestationService.personsInFirestationWithCount(station);
 	}
-	
+
 	@GetMapping("/phoneAlert")
-	public List<String> getPhonesOfPersonsInFirestation(
-			@RequestParam(name = "firestation") final int station) {
+	public List<String> getPhonesOfPersonsInFirestation(@RequestParam(name = "firestation") final int station) {
 		return firestationService.getPhoneOfPersonsInFirestation(station);
 	}
+
 }

@@ -12,6 +12,8 @@ import com.safetynetalerts.model.Child;
 import com.safetynetalerts.model.ChildAlert;
 import com.safetynetalerts.model.Fire;
 import com.safetynetalerts.model.FireWithStationNumber;
+import com.safetynetalerts.model.Flood;
+import com.safetynetalerts.model.PersonAtAddressWithMedicalRecords;
 import com.safetynetalerts.model.json.Person;
 import com.safetynetalerts.repository.PersonRepository;
 
@@ -105,5 +107,49 @@ public class PersonService implements IPersonService {
 		fireWithStationNumber.setFire(getFireAtAddress(address));
 		fireWithStationNumber.setStationNumber(firestationService.getFirestationNumber(address));
 		return fireWithStationNumber;
+	}
+
+	public List<PersonAtAddressWithMedicalRecords> getPersonsAtAddressWithMedicalRecords(String address) {
+		logger.info("get all persons with their medica records at address : " + address);
+
+		List<PersonAtAddressWithMedicalRecords> personsAtAddressWithMedicalRecords = new ArrayList<PersonAtAddressWithMedicalRecords>();
+
+		for (Person person : repo.getPersons()) {
+			logger.info("iterate : " + person + ", address : " + person.getAddress());
+			if (person.getAddress().equals(address)) {
+				PersonAtAddressWithMedicalRecords personToAdd = new PersonAtAddressWithMedicalRecords();
+				personToAdd.setFirstName(person.getFirstName());
+				personToAdd.setLastName(person.getLastName());
+				personToAdd.setPhone(person.getPhone());
+				personToAdd.setAge(medicalRecordService.getAge(person.getFirstName(), person.getLastName()));
+				personToAdd.setMedications(
+						medicalRecordService.getMedications(person.getFirstName(), person.getLastName()));
+				personToAdd
+						.setAllergies(medicalRecordService.getAllergies(person.getFirstName(), person.getLastName()));
+
+				logger.info("person at address with medical records added : " + personToAdd.getFirstName() + " "
+						+ personToAdd.getLastName() + " " + personToAdd.getPhone() + " " + personToAdd.getAge() + " "
+						+ personToAdd.getMedications() + " " + personToAdd.getAllergies());
+				personsAtAddressWithMedicalRecords.add(personToAdd);
+			}
+		}
+		return personsAtAddressWithMedicalRecords;
+	}
+
+	public List<Flood> getFlood(int station) {
+		List<Flood> flood = new ArrayList<Flood>();
+		List<String> stationAddressList = firestationService.getFirestationAddress(station);
+		logger.info("stationAddressList : " + stationAddressList);
+
+		for (String address : stationAddressList) {
+			Flood floodToAdd = new Flood();
+			floodToAdd.setAddress(address);
+			floodToAdd
+					.setPersonAtAddressWithMedicalRecords(getPersonsAtAddressWithMedicalRecords(address));
+
+			logger.info("Flood added : " + floodToAdd);
+			flood.add(floodToAdd);
+		}
+		return flood;
 	}
 }

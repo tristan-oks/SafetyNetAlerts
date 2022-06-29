@@ -4,10 +4,22 @@ import java.util.List;
 
 public class Flood {
 	private String address;
-	private String firstName;
-	private String lastName;
-	private String phone;
-	private int age;
-	private List<String> medications;
-	private List<String> allergies;
+	private List<PersonAtAddressWithMedicalRecords> personAtAddressWithMedicalRecords;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public List<PersonAtAddressWithMedicalRecords> getPersonAtAddressWithMedicalRecords() {
+		return personAtAddressWithMedicalRecords;
+	}
+
+	public void setPersonAtAddressWithMedicalRecords(
+			List<PersonAtAddressWithMedicalRecords> personAtAddressWithMedicalRecords) {
+		this.personAtAddressWithMedicalRecords = personAtAddressWithMedicalRecords;
+	}
 }

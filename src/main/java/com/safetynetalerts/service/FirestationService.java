@@ -26,7 +26,7 @@ public class FirestationService implements IFirestationService {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	private List<String> getFirestationAddress(int station) {
+	public List<String> getFirestationAddress(int station) {
 		List<String> addresses = new ArrayList<String>();
 		for (Firestation firestation : firestationRepo.getFirestations()) {
 			logger.info("iterate : " + firestation);
