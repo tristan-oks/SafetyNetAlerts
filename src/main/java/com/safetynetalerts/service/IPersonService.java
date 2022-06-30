@@ -17,5 +17,5 @@ public interface IPersonService {
 	
 	public List<PersonAtAddressWithMedicalRecords> getPersonsAtAddressWithMedicalRecords(String address);
 	
-	public List<Flood> getFlood(int station);
+	public List<Flood> getFlood(int[] stations);
 }

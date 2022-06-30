@@ -34,7 +34,7 @@ public class PersonController {
 	}
 	
 	@GetMapping("/flood")
-	public List<Flood> getFlood(@RequestParam(name = "station") final int station) {
-		return personService.getFlood(station);
+	public List<Flood> getFlood(@RequestParam(name = "stations") final int[] stations) {
+		return personService.getFlood(stations);
 	}
 }

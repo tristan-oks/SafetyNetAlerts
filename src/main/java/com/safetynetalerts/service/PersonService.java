@@ -110,7 +110,7 @@ public class PersonService implements IPersonService {
 	}
 
 	public List<PersonAtAddressWithMedicalRecords> getPersonsAtAddressWithMedicalRecords(String address) {
-		logger.info("get all persons with their medica records at address : " + address);
+		logger.info("get all persons with their medical records at address : " + address);
 
 		List<PersonAtAddressWithMedicalRecords> personsAtAddressWithMedicalRecords = new ArrayList<PersonAtAddressWithMedicalRecords>();
 
@@ -136,19 +136,21 @@ public class PersonService implements IPersonService {
 		return personsAtAddressWithMedicalRecords;
 	}
 
-	public List<Flood> getFlood(int station) {
+	public List<Flood> getFlood(int[] stations) {
 		List<Flood> flood = new ArrayList<Flood>();
-		List<String> stationAddressList = firestationService.getFirestationAddress(station);
-		logger.info("stationAddressList : " + stationAddressList);
+		for (int station : stations) {
+			logger.info("processing station : " + station);
+			List<String> stationAddressList = firestationService.getFirestationAddress(station);
 
-		for (String address : stationAddressList) {
-			Flood floodToAdd = new Flood();
-			floodToAdd.setAddress(address);
-			floodToAdd
-					.setPersonAtAddressWithMedicalRecords(getPersonsAtAddressWithMedicalRecords(address));
+			logger.info("stationAddressList : " + stationAddressList);
+			for (String address : stationAddressList) {
+				Flood floodToAdd = new Flood();
+				floodToAdd.setAddress(address);
+				floodToAdd.setPersonAtAddressWithMedicalRecords(getPersonsAtAddressWithMedicalRecords(address));
 
-			logger.info("Flood added : " + floodToAdd);
-			flood.add(floodToAdd);
+				logger.info("Flood added : " + floodToAdd);
+				flood.add(floodToAdd);
+			}
 		}
 		return flood;
 	}
