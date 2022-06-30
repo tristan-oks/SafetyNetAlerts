@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.safetynetalerts.model.ChildAlert;
 import com.safetynetalerts.model.FireWithStationNumber;
 import com.safetynetalerts.model.Flood;
+import com.safetynetalerts.model.PersonInfo;
 import com.safetynetalerts.service.IPersonService;
 
 @RestController
@@ -36,5 +37,10 @@ public class PersonController {
 	@GetMapping("/flood")
 	public List<Flood> getFlood(@RequestParam(name = "stations") final int[] stations) {
 		return personService.getFlood(stations);
+	}
+	
+	@GetMapping("/personInfo")
+	public List<PersonInfo> getPersonInfo(@RequestParam(name = "firstName") final String firstName, @RequestParam(name = "lastName") final String lastName ) {
+		return personService.getPersonsInfo(firstName, lastName);
 	}
 }

@@ -6,6 +6,7 @@ import com.safetynetalerts.model.ChildAlert;
 import com.safetynetalerts.model.FireWithStationNumber;
 import com.safetynetalerts.model.Flood;
 import com.safetynetalerts.model.PersonAtAddressWithMedicalRecords;
+import com.safetynetalerts.model.PersonInfo;
 
 public interface IPersonService {
 
@@ -18,4 +19,6 @@ public interface IPersonService {
 	public List<PersonAtAddressWithMedicalRecords> getPersonsAtAddressWithMedicalRecords(String address);
 	
 	public List<Flood> getFlood(int[] stations);
+
+	public List<PersonInfo> getPersonsInfo(String firstName, String lastName);
 }

@@ -1,4 +1,4 @@
-package com.safetynetalerts.service;
+package com.safetynetalerts.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,8 @@ import com.safetynetalerts.model.json.Firestation;
 import com.safetynetalerts.model.json.Person;
 import com.safetynetalerts.repository.FirestationRepository;
 import com.safetynetalerts.repository.PersonRepository;
+import com.safetynetalerts.service.IFirestationService;
+import com.safetynetalerts.service.IMedicalRecordService;
 
 @Service
 public class FirestationService implements IFirestationService {

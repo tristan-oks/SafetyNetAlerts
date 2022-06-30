@@ -1,4 +1,4 @@
-package com.safetynetalerts.service;
+package com.safetynetalerts.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,12 @@ import com.safetynetalerts.model.Fire;
 import com.safetynetalerts.model.FireWithStationNumber;
 import com.safetynetalerts.model.Flood;
 import com.safetynetalerts.model.PersonAtAddressWithMedicalRecords;
+import com.safetynetalerts.model.PersonInfo;
 import com.safetynetalerts.model.json.Person;
 import com.safetynetalerts.repository.PersonRepository;
+import com.safetynetalerts.service.IFirestationService;
+import com.safetynetalerts.service.IMedicalRecordService;
+import com.safetynetalerts.service.IPersonService;
 
 @Service
 public class PersonService implements IPersonService {
@@ -153,5 +157,25 @@ public class PersonService implements IPersonService {
 			}
 		}
 		return flood;
+	}
+
+	public List<PersonInfo> getPersonsInfo(String firstName, String lastName) {
+		List<PersonInfo> personsInfo = new ArrayList<PersonInfo>();
+		for (Person person : repo.getPersons()) {
+			logger.info("iterate : " + person);
+			if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
+				PersonInfo personInfoToAdd = new PersonInfo();
+				personInfoToAdd.setFirstName(firstName);
+				personInfoToAdd.setLastName(lastName);
+				personInfoToAdd.setAddress(person.getAddress());
+				personInfoToAdd.setAge(medicalRecordService.getAge(firstName, lastName));
+				personInfoToAdd.setEmail(person.getEmail());
+				personInfoToAdd.setMedications(medicalRecordService.getMedications(firstName, lastName));
+				personInfoToAdd.setAllergies(medicalRecordService.getAllergies(firstName, lastName));
+				logger.info("added : " + personInfoToAdd);
+				personsInfo.add(personInfoToAdd);
+			}
+		}
+		return personsInfo;
 	}
 }

@@ -1,4 +1,4 @@
-package com.safetynetalerts.service;
+package com.safetynetalerts.service.implementation;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.safetynetalerts.model.json.MedicalRecord;
 import com.safetynetalerts.repository.MedicalRecordRepository;
+import com.safetynetalerts.service.IMedicalRecordService;
 
 @Service
 public class MedicalRecordService implements IMedicalRecordService {
