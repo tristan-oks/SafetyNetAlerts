@@ -3,11 +3,15 @@ package com.safetynetalerts.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynetalerts.model.PersonsInFirestationWithCount;
+import com.safetynetalerts.model.json.Firestation;
 import com.safetynetalerts.service.IFirestationService;
 
 @RestController
@@ -27,4 +31,30 @@ public class FireStationController {
 		return firestationService.getPhoneOfPersonsInFirestation(station);
 	}
 
+	@PostMapping("/firestation")
+	public String addFirestation(Firestation firestation) {
+		if (firestationService.addFirestation(firestation)) {
+		return ("firestation added : " + firestation);
+		} else {
+			return "firestation " + firestation + " aready exists, impossible to add it";
+		}
+	}
+
+	@PutMapping("/firestation")
+	public String modifyFirestation(Firestation firestation) {
+		if (firestationService.modifyFirestation(firestation)) {
+			return ("firestation modified : " + firestation);
+		} else {
+			return ("sorry, impossible to modify : " + firestation);
+		}
+	}
+	
+	@DeleteMapping("/firestation")
+	public String deleteFirestation(Firestation firestation) {
+		if (firestationService.deleteFirestation(firestation)) {
+			return ("firestation deleted : " + firestation);
+		} else {
+			return ("sorry, impossible to delete : " + firestation);
+		}
+	}
 }

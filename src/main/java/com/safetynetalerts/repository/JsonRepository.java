@@ -2,6 +2,7 @@ package com.safetynetalerts.repository;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,15 @@ public class JsonRepository {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	public void serializeJsonToFile(ParsedJson json, String filename) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			mapper.writeValue(Paths.get(filename).toFile(), json);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

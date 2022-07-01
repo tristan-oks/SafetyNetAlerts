@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.safetynetalerts.model.json.Firestation;
+import com.safetynetalerts.constants.Constants;
 
 @Component
 public class FirestationRepository {
@@ -13,7 +14,7 @@ public class FirestationRepository {
 	private JsonRepository repo;
 
 	public List<Firestation> getFirestations() {
-		return repo.parseJSONFile("data.json").getFirestations();
+		return repo.parseJSONFile(Constants.JSON_FILENAME).getFirestations();
 	}
 
 }

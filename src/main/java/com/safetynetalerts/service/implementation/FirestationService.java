@@ -8,17 +8,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetynetalerts.constants.Constants;
 import com.safetynetalerts.model.PersonInFirestation;
 import com.safetynetalerts.model.PersonsInFirestationWithCount;
 import com.safetynetalerts.model.json.Firestation;
+import com.safetynetalerts.model.json.ParsedJson;
 import com.safetynetalerts.model.json.Person;
 import com.safetynetalerts.repository.FirestationRepository;
+import com.safetynetalerts.repository.JsonRepository;
 import com.safetynetalerts.repository.PersonRepository;
 import com.safetynetalerts.service.IFirestationService;
 import com.safetynetalerts.service.IMedicalRecordService;
 
 @Service
 public class FirestationService implements IFirestationService {
+
+	@Autowired
+	private JsonRepository jsonRepo;
 	@Autowired
 	private FirestationRepository firestationRepo;
 	@Autowired
@@ -102,11 +108,67 @@ public class FirestationService implements IFirestationService {
 
 	public List<String> getPhoneOfPersonsInFirestation(int station) {
 		List<String> phones = new ArrayList<String>();
-		List<PersonInFirestation> personsInFirestation = getPersonsInFireStation(station);
-		for (PersonInFirestation personInFirestation : personsInFirestation) {
+		for (PersonInFirestation personInFirestation : getPersonsInFireStation(station)) {
 			phones.add(personInFirestation.getPhone());
 			logger.info("phone added : " + personInFirestation.getPhone());
 		}
 		return phones;
+	}
+
+	public boolean addFirestation(Firestation firestation) {
+		logger.info("firestation to add : " + firestation);
+		List<Firestation> firestations = firestationRepo.getFirestations();
+		if (firestations.contains(firestation)) {
+			logger.info("firestation : " + firestation + "already exists");
+			return false;
+		}
+		firestations.add(firestation);
+		logger.info("resulted firestations : " + firestations);
+		ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
+		json.setFireStations(firestations);
+		jsonRepo.serializeJsonToFile(json, "result.json");
+		return true;
+	}
+
+	public boolean modifyFirestation(Firestation firestation) {
+		logger.info("firestation to modify : " + firestation);
+		boolean modified = false;
+		List<Firestation> modifiedFirestations = new ArrayList<Firestation>();
+		for (Firestation firestationLoop : firestationRepo.getFirestations()) {
+			if (firestationLoop.getAddress().equals(firestation.getAddress())
+					&& firestationLoop.getStation() != firestation.getStation()) {
+				firestationLoop.setStation(firestation.getStation());
+				modified = true;
+				logger.info("firestation modified");
+			}
+			modifiedFirestations.add(firestationLoop);
+		}
+		if (modified) {
+			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
+			json.setFireStations(modifiedFirestations);
+			jsonRepo.serializeJsonToFile(json, "result.json");
+		}
+		return modified;
+	}
+
+	public boolean deleteFirestation(Firestation firestation) {
+		logger.info("firestation to delete : " + firestation);
+		boolean deleted = false;
+		List<Firestation> modifiedFirestations = new ArrayList<Firestation>();
+		for (Firestation firestationLoop : firestationRepo.getFirestations()) {
+			if (firestationLoop.getAddress().equals(firestation.getAddress())
+					&& firestationLoop.getStation() == firestation.getStation()) {
+				deleted = true;
+				logger.info("firestation deleted");
+			} else {
+				modifiedFirestations.add(firestationLoop);
+			}
+		}
+		if (deleted) {
+			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
+			json.setFireStations(modifiedFirestations);
+			jsonRepo.serializeJsonToFile(json, "result.json");
+		}
+		return deleted;
 	}
 }
