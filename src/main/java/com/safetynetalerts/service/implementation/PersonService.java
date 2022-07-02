@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetynetalerts.constants.Constants;
 import com.safetynetalerts.model.Child;
 import com.safetynetalerts.model.ChildAlert;
 import com.safetynetalerts.model.Fire;
@@ -15,7 +16,9 @@ import com.safetynetalerts.model.FireWithStationNumber;
 import com.safetynetalerts.model.Flood;
 import com.safetynetalerts.model.PersonAtAddressWithMedicalRecords;
 import com.safetynetalerts.model.PersonInfo;
+import com.safetynetalerts.model.json.ParsedJson;
 import com.safetynetalerts.model.json.Person;
+import com.safetynetalerts.repository.JsonRepository;
 import com.safetynetalerts.repository.PersonRepository;
 import com.safetynetalerts.service.IFirestationService;
 import com.safetynetalerts.service.IMedicalRecordService;
@@ -23,6 +26,8 @@ import com.safetynetalerts.service.IPersonService;
 
 @Service
 public class PersonService implements IPersonService {
+	@Autowired
+	private JsonRepository jsonRepo;
 	@Autowired
 	private PersonRepository repo;
 	@Autowired
@@ -177,5 +182,77 @@ public class PersonService implements IPersonService {
 			}
 		}
 		return personsInfo;
+	}
+
+	public boolean addPerson(Person person) {
+		logger.info("person to add : " + person);
+		List<Person> persons = repo.getPersons();
+		// if (persons.contains(person)) {
+		for (Person personLoop : persons) {
+			if ((personLoop.getFirstName().equals(person.getFirstName()))
+					&& (personLoop.getLastName().equals(person.getLastName()))
+					&& (personLoop.getAddress().equals(person.getAddress()))
+					&& (personLoop.getCity().equals(person.getCity())) && (personLoop.getZip() == person.getZip())
+					&& (personLoop.getPhone().equals(person.getPhone()))
+					&& (personLoop.getEmail().equals(person.getEmail()))) {
+				logger.info("person : " + person + "already exists");
+				return false;
+			}
+		}
+		persons.add(person);
+		logger.info("resulted persons : " + persons);
+		ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
+		json.setPersons(persons);
+		jsonRepo.serializeJsonToFile(json, "result.json");
+		return true;
+	}
+
+	public boolean modifyPerson(Person person) {
+		logger.info("person to modify : " + person);
+		boolean modified = false;
+		List<Person> modifiedPersons = new ArrayList<Person>();
+		// if (persons.contains(person)) {
+		for (Person personLoop : repo.getPersons()) {
+			if ((personLoop.getFirstName().equals(person.getFirstName()))
+					&& (personLoop.getLastName().equals(person.getLastName()))
+					&& (!(personLoop.getAddress().equals(person.getAddress()))
+							|| !(personLoop.getCity().equals(person.getCity()))
+							|| (personLoop.getZip() != person.getZip())
+							|| !(personLoop.getPhone().equals(person.getPhone()))
+							|| !(personLoop.getEmail().equals(person.getEmail())))) {
+				personLoop = person;
+				modified = true;
+				logger.info("person : " + person + "modified");
+			}
+			modifiedPersons.add(personLoop);
+		}
+		if (modified) {
+			logger.info("resulted persons : " + modifiedPersons);
+			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
+			json.setPersons(modifiedPersons);
+			jsonRepo.serializeJsonToFile(json, "result.json");
+		}
+		return modified;
+	}
+
+	public boolean deletePerson(String firstName, String lastName) {
+		logger.info("person to delete : " + firstName + lastName);
+		boolean deleted = false;
+		List<Person> modifiedPersons = new ArrayList<Person>();
+		for (Person personLoop : repo.getPersons()) {
+			if (personLoop.getFirstName().equals(firstName) && personLoop.getLastName().equals(lastName)) {
+				deleted = true;
+				logger.info("person : " + personLoop + "deleted");
+			} else {
+				modifiedPersons.add(personLoop);
+			}
+		}
+		if (deleted) {
+			logger.info("resulted persons : " + modifiedPersons);
+			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
+			json.setPersons(modifiedPersons);
+			jsonRepo.serializeJsonToFile(json, "result.json");
+		}
+		return deleted;
 	}
 }

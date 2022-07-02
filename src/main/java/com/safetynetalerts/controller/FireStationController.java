@@ -32,25 +32,25 @@ public class FireStationController {
 	}
 
 	@PostMapping("/firestation")
-	public String addFirestation(Firestation firestation) {
+	public String addFirestation(final Firestation firestation) {
 		if (firestationService.addFirestation(firestation)) {
-		return ("firestation added : " + firestation);
+			return ("firestation added : " + firestation);
 		} else {
-			return "firestation " + firestation + " aready exists, impossible to add it";
+			return ("firestation " + firestation + " already exists, impossible to add it");
 		}
 	}
 
 	@PutMapping("/firestation")
-	public String modifyFirestation(Firestation firestation) {
+	public String modifyFirestation(final Firestation firestation) {
 		if (firestationService.modifyFirestation(firestation)) {
 			return ("firestation modified : " + firestation);
 		} else {
 			return ("sorry, impossible to modify : " + firestation);
 		}
 	}
-	
+
 	@DeleteMapping("/firestation")
-	public String deleteFirestation(Firestation firestation) {
+	public String deleteFirestation(final Firestation firestation) {
 		if (firestationService.deleteFirestation(firestation)) {
 			return ("firestation deleted : " + firestation);
 		} else {

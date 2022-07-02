@@ -118,9 +118,14 @@ public class FirestationService implements IFirestationService {
 	public boolean addFirestation(Firestation firestation) {
 		logger.info("firestation to add : " + firestation);
 		List<Firestation> firestations = firestationRepo.getFirestations();
-		if (firestations.contains(firestation)) {
-			logger.info("firestation : " + firestation + "already exists");
-			return false;
+		// This .contains doesn't work :(
+		// if (firestations.contains(firestation)) {
+		for (Firestation firestationLoop : firestations) {
+			if ((firestationLoop.getAddress().equals(firestation.getAddress())
+					&& (firestationLoop.getStation() == firestation.getStation()))) {
+				logger.info("firestation : " + firestation + "already exists");
+				return false;
+			}
 		}
 		firestations.add(firestation);
 		logger.info("resulted firestations : " + firestations);
