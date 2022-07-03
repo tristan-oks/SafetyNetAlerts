@@ -60,5 +60,4 @@ public class MedicalRecord {
 		return "MedicalRecord [firstName=" + firstName + ", lastName=" + lastName + ", birthdate=" + birthdate
 				+ ", medications=" + medications + ", allergies=" + allergies + "]";
 	}
-
 }

@@ -22,4 +22,11 @@ public class Flood {
 			List<PersonAtAddressWithMedicalRecords> personAtAddressWithMedicalRecords) {
 		this.personAtAddressWithMedicalRecords = personAtAddressWithMedicalRecords;
 	}
+
+	@Override
+	public String toString() {
+		return "Flood [address=" + address + ", personAtAddressWithMedicalRecords=" + personAtAddressWithMedicalRecords
+				+ "]";
+	}
+
 }

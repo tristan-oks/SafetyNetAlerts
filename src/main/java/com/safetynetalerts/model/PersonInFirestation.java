@@ -46,4 +46,10 @@ public class PersonInFirestation {
 	public void setAge(int age) {
 		this.age = age;
 	}
+
+	@Override
+	public String toString() {
+		return "PersonInFirestation [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
+				+ ", phone=" + phone + ", age=" + age + "]";
+	}
 }

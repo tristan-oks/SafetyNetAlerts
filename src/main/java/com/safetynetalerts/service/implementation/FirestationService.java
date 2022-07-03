@@ -75,9 +75,7 @@ public class FirestationService implements IFirestationService {
 				personToAdd.setPhone(person.getPhone());
 				personToAdd.setAge(medicalRecordService.getAge(person.getFirstName(), person.getLastName()));
 
-				logger.info("personsInFirestation added : " + personToAdd.getAge() + " " + personToAdd.getFirstName()
-						+ " " + personToAdd.getLastName() + " " + personToAdd.getAddress() + " "
-						+ personToAdd.getPhone());
+				logger.info("added " + personToAdd);
 				personsInFirestation.add(personToAdd);
 			}
 		}
@@ -91,9 +89,7 @@ public class FirestationService implements IFirestationService {
 
 		List<PersonInFirestation> personsInFirestation = getPersonsInFireStation(station);
 		for (PersonInFirestation personInFirestation : personsInFirestation) {
-			logger.info("countIterate : " + personInFirestation.getAge() + " " + personInFirestation.getFirstName()
-					+ " " + personInFirestation.getLastName() + " " + personInFirestation.getAddress() + " "
-					+ personInFirestation.getPhone());
+			logger.info("countIterate : " + personInFirestation);
 			if (personInFirestation.getAge() < 18) {
 				childrens += 1;
 			} else {
