@@ -9,7 +9,7 @@ public class MedicalRecord {
 	@JsonProperty("lastName")
 	private String lastName;
 	@JsonProperty("birthdate")
-	private String birthDate;
+	private String birthdate;
 	@JsonProperty("medications")
 	private List<String> medications;
 	@JsonProperty("allergies")
@@ -31,12 +31,12 @@ public class MedicalRecord {
 		this.lastName = lastName;
 	}
 
-	public String getBirthDate() {
-		return birthDate;
+	public String getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthDate(String birthDate) {
-		this.birthDate = birthDate;
+	public void setBirthdate(String birthdate) {
+		this.birthdate = birthdate;
 	}
 
 	public List<String> getMedications() {
@@ -54,6 +54,5 @@ public class MedicalRecord {
 	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
-
 
 }
