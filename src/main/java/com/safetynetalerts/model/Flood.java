@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Flood {
 	private String address;
-	private List<PersonAtAddressWithMedicalRecords> personAtAddressWithMedicalRecords;
+	private List<PersonWithMedicalRecord> personAtAddressWithMedicalRecords;
 
 	public String getAddress() {
 		return address;
@@ -14,12 +14,12 @@ public class Flood {
 		this.address = address;
 	}
 
-	public List<PersonAtAddressWithMedicalRecords> getPersonAtAddressWithMedicalRecords() {
+	public List<PersonWithMedicalRecord> getPersonAtAddressWithMedicalRecords() {
 		return personAtAddressWithMedicalRecords;
 	}
 
 	public void setPersonAtAddressWithMedicalRecords(
-			List<PersonAtAddressWithMedicalRecords> personAtAddressWithMedicalRecords) {
+			List<PersonWithMedicalRecord> personAtAddressWithMedicalRecords) {
 		this.personAtAddressWithMedicalRecords = personAtAddressWithMedicalRecords;
 	}
 

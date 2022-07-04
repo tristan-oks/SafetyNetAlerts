@@ -1,6 +1,6 @@
 package com.safetynetalerts.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +27,7 @@ public class FireStationController {
 	}
 
 	@GetMapping("/phoneAlert")
-	public List<String> getPhonesOfPersonsInFirestation(@RequestParam(name = "firestation") final int station) {
+	public Set<String> getPhonesOfPersonsInFirestation(@RequestParam(name = "firestation") final int station) {
 		return firestationService.getPhoneOfPersonsInFirestation(station);
 	}
 

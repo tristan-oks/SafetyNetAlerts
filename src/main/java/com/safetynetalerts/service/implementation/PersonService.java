@@ -1,7 +1,9 @@
 package com.safetynetalerts.service.implementation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +13,9 @@ import org.springframework.stereotype.Service;
 import com.safetynetalerts.constants.Constants;
 import com.safetynetalerts.model.Child;
 import com.safetynetalerts.model.ChildAlert;
-import com.safetynetalerts.model.Fire;
+import com.safetynetalerts.model.PersonWithMedicalRecord;
 import com.safetynetalerts.model.FireWithStationNumber;
 import com.safetynetalerts.model.Flood;
-import com.safetynetalerts.model.PersonAtAddressWithMedicalRecords;
 import com.safetynetalerts.model.PersonInfo;
 import com.safetynetalerts.model.json.ParsedJson;
 import com.safetynetalerts.model.json.Person;
@@ -37,8 +38,8 @@ public class PersonService implements IPersonService {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	public List<String> getEmailsOfPersonsInCity(String city) {
-		List<String> emails = new ArrayList<String>();
+	public Set<String> getEmailsOfPersonsInCity(String city) {
+		Set<String> emails = new HashSet<String>();
 		logger.info("emails city : " + city);
 
 		for (Person person : repo.getPersons()) {
@@ -64,7 +65,6 @@ public class PersonService implements IPersonService {
 
 	private List<Child> getChildsAtAddress(String address) {
 		List<Child> childsAtAddress = new ArrayList<Child>();
-
 		List<Person> personsAtAddress = getPersonsAtAddress(address);
 		for (Person person : personsAtAddress) {
 			int age = medicalRecordService.getAge(person.getFirstName(), person.getLastName());
@@ -95,11 +95,11 @@ public class PersonService implements IPersonService {
 		return childsAtAddressWithFamily;
 	}
 
-	private List<Fire> getFireAtAddress(String address) {
-		List<Fire> fireAtAddress = new ArrayList<Fire>();
+	private List<PersonWithMedicalRecord> getFireAtAddress(String address) {
+		List<PersonWithMedicalRecord> fireAtAddress = new ArrayList<PersonWithMedicalRecord>();
 		List<Person> personsAtAddress = getPersonsAtAddress(address);
 		for (Person person : personsAtAddress) {
-			Fire fireToAdd = new Fire();
+			PersonWithMedicalRecord fireToAdd = new PersonWithMedicalRecord();
 			fireToAdd.setFirstName(person.getFirstName());
 			fireToAdd.setLastName(person.getLastName());
 			fireToAdd.setPhone(person.getPhone());
@@ -118,15 +118,15 @@ public class PersonService implements IPersonService {
 		return fireWithStationNumber;
 	}
 
-	public List<PersonAtAddressWithMedicalRecords> getPersonsAtAddressWithMedicalRecords(String address) {
+	public List<PersonWithMedicalRecord> getPersonsAtAddressWithMedicalRecords(String address) {
 		logger.info("get all persons with their medical records at address : " + address);
 
-		List<PersonAtAddressWithMedicalRecords> personsAtAddressWithMedicalRecords = new ArrayList<PersonAtAddressWithMedicalRecords>();
+		List<PersonWithMedicalRecord> personsAtAddressWithMedicalRecords = new ArrayList<PersonWithMedicalRecord>();
 
 		for (Person person : repo.getPersons()) {
 			logger.info("iterate : " + person + ", address : " + person.getAddress());
 			if (person.getAddress().equals(address)) {
-				PersonAtAddressWithMedicalRecords personToAdd = new PersonAtAddressWithMedicalRecords();
+				PersonWithMedicalRecord personToAdd = new PersonWithMedicalRecord();
 				personToAdd.setFirstName(person.getFirstName());
 				personToAdd.setLastName(person.getLastName());
 				personToAdd.setPhone(person.getPhone());
@@ -203,7 +203,7 @@ public class PersonService implements IPersonService {
 		logger.info("resulted persons : " + persons);
 		ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
 		json.setPersons(persons);
-		jsonRepo.serializeJsonToFile(json, "result.json");
+		jsonRepo.serializeJsonToFile(json, Constants.RESULT_FILENAME);
 		return true;
 	}
 
@@ -230,7 +230,7 @@ public class PersonService implements IPersonService {
 			logger.info("resulted persons : " + modifiedPersons);
 			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
 			json.setPersons(modifiedPersons);
-			jsonRepo.serializeJsonToFile(json, "result.json");
+			jsonRepo.serializeJsonToFile(json, Constants.RESULT_FILENAME);
 		}
 		return modified;
 	}
@@ -251,7 +251,7 @@ public class PersonService implements IPersonService {
 			logger.info("resulted persons : " + modifiedPersons);
 			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
 			json.setPersons(modifiedPersons);
-			jsonRepo.serializeJsonToFile(json, "result.json");
+			jsonRepo.serializeJsonToFile(json, Constants.RESULT_FILENAME);
 		}
 		return deleted;
 	}

@@ -2,7 +2,7 @@ package com.safetynetalerts.model;
 
 import java.util.List;
 
-public class PersonAtAddressWithMedicalRecords {
+public class PersonWithMedicalRecord {
 	private String firstName;
 	private String lastName;
 	private String phone;

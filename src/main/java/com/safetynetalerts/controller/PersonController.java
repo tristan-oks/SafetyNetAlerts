@@ -1,6 +1,7 @@
 package com.safetynetalerts.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +25,7 @@ public class PersonController {
 	private IPersonService personService;
 
 	@GetMapping("/communityEmail")
-	public List<String> getEmailsOfPersonsInCity(@RequestParam(name = "city") final String city) {
+	public Set<String> getEmailsOfPersonsInCity(@RequestParam(name = "city") final String city) {
 		return personService.getEmailsOfPersonsInCity(city);
 	}
 
@@ -38,7 +39,7 @@ public class PersonController {
 		return personService.getFireWithStationNumberAtAddress(address);
 	}
 
-	@GetMapping("/flood")
+	@GetMapping("/flood/station")
 	public List<Flood> getFlood(@RequestParam(name = "stations") final int[] stations) {
 		return personService.getFlood(stations);
 	}

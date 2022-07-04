@@ -86,7 +86,7 @@ public class MedicalRecordService implements IMedicalRecordService {
 		logger.info("resulted medical records : " + medicalRecords);
 		ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
 		json.setMedicalRecords(medicalRecords);
-		jsonRepo.serializeJsonToFile(json, "result.json");
+		jsonRepo.serializeJsonToFile(json, "Constants.RESULT_FILENAME");
 		return true;
 	}
 
@@ -111,7 +111,7 @@ public class MedicalRecordService implements IMedicalRecordService {
 			logger.info("resulted medical record : " + modifiedMedicalRecords);
 			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
 			json.setMedicalRecords(modifiedMedicalRecords);
-			jsonRepo.serializeJsonToFile(json, "result.json");
+			jsonRepo.serializeJsonToFile(json, Constants.RESULT_FILENAME);
 		}
 		return modified;
 	}
@@ -133,7 +133,7 @@ public class MedicalRecordService implements IMedicalRecordService {
 			logger.info("resulted medical records : " + modifiedMedicalRecords);
 			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
 			json.setMedicalRecords(modifiedMedicalRecords);
-			jsonRepo.serializeJsonToFile(json, "result.json");
+			jsonRepo.serializeJsonToFile(json, Constants.RESULT_FILENAME);
 		}
 		return deleted;
 	}

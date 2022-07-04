@@ -4,13 +4,13 @@ import java.util.List;
 
 public class FireWithStationNumber {
 
-	private List<Fire> fire;
+	private List<PersonWithMedicalRecord> fire;
 	private int stationNumber;
 	
-	public List<Fire> getFire() {
+	public List<PersonWithMedicalRecord> getFire() {
 		return fire;
 	}
-	public void setFire(List<Fire> fire) {
+	public void setFire(List<PersonWithMedicalRecord> fire) {
 		this.fire = fire;
 	}
 	public int getStationNumber() {

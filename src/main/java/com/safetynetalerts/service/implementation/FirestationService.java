@@ -1,7 +1,9 @@
 package com.safetynetalerts.service.implementation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,8 +104,8 @@ public class FirestationService implements IFirestationService {
 		return personsInFirestationWithCount;
 	}
 
-	public List<String> getPhoneOfPersonsInFirestation(int station) {
-		List<String> phones = new ArrayList<String>();
+	public Set<String> getPhoneOfPersonsInFirestation(int station) {
+		Set<String> phones = new HashSet<String>();
 		for (PersonInFirestation personInFirestation : getPersonsInFireStation(station)) {
 			phones.add(personInFirestation.getPhone());
 			logger.info("phone added : " + personInFirestation.getPhone());
@@ -127,7 +129,7 @@ public class FirestationService implements IFirestationService {
 		logger.info("resulted firestations : " + firestations);
 		ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
 		json.setFireStations(firestations);
-		jsonRepo.serializeJsonToFile(json, "result.json");
+		jsonRepo.serializeJsonToFile(json, Constants.RESULT_FILENAME);
 		return true;
 	}
 
@@ -147,7 +149,7 @@ public class FirestationService implements IFirestationService {
 		if (modified) {
 			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
 			json.setFireStations(modifiedFirestations);
-			jsonRepo.serializeJsonToFile(json, "result.json");
+			jsonRepo.serializeJsonToFile(json, Constants.RESULT_FILENAME);
 		}
 		return modified;
 	}
@@ -168,7 +170,7 @@ public class FirestationService implements IFirestationService {
 		if (deleted) {
 			ParsedJson json = jsonRepo.parseJSONFile(Constants.JSON_FILENAME);
 			json.setFireStations(modifiedFirestations);
-			jsonRepo.serializeJsonToFile(json, "result.json");
+			jsonRepo.serializeJsonToFile(json, Constants.RESULT_FILENAME);
 		}
 		return deleted;
 	}

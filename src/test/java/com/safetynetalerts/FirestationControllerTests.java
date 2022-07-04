@@ -19,7 +19,8 @@ public class FirestationControllerTests {
 
 	@Test
 	public void testGetPhonesOfPersonsInFirestation() throws Exception {
-		mockMvc.perform(get("/phoneAlert?firestation=1")).andExpect(status().isOk());
+		mockMvc.perform(get("/phoneAlert?firestation=1")).andExpect(status().isOk())
+				.andExpect(jsonPath("$.[0]", is("841-874-6512")));
 	}
 
 	@Test
@@ -27,7 +28,6 @@ public class FirestationControllerTests {
 		mockMvc.perform(get("/firestation?stationNumber=3")).andExpect(status().isOk())
 				.andExpect(jsonPath("$.personsInFireStation.[0].firstName", is("John")))
 				.andExpect(jsonPath("$.personsInFireStation.[1].firstName", is("Jacob")))
-				.andExpect(jsonPath("$.adults", is(8)))
-				.andExpect(jsonPath("$.childrens", is(3)));
+				.andExpect(jsonPath("$.adults", is(8))).andExpect(jsonPath("$.childrens", is(3)));
 	}
 }
