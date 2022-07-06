@@ -2,11 +2,14 @@ package com.safetynetalerts.controller;
 
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +22,9 @@ public class FireStationController {
 
 	@Autowired
 	private IFirestationService firestationService;
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 
 	@GetMapping("/firestation")
 	public PersonsInFirestationWithCount getPersonsInFirestationWithCount(
@@ -32,29 +38,29 @@ public class FireStationController {
 	}
 
 	@PostMapping("/firestation")
-	public String addFirestation(final Firestation firestation) {
+	public void addFirestation(@RequestBody final Firestation firestation) {
 		if (firestationService.addFirestation(firestation)) {
-			return ("firestation added : " + firestation);
+			logger.info("firestation added : " + firestation);
 		} else {
-			return ("firestation " + firestation + " already exists, impossible to add it");
+			logger.error("firestation " + firestation + " already exists, impossible to add it");
 		}
 	}
 
 	@PutMapping("/firestation")
-	public String modifyFirestation(final Firestation firestation) {
+	public void modifyFirestation(@RequestBody final Firestation firestation) {
 		if (firestationService.modifyFirestation(firestation)) {
-			return ("firestation modified : " + firestation);
+			logger.info("firestation modified : " + firestation);
 		} else {
-			return ("sorry, impossible to modify : " + firestation);
+			logger.error("sorry, impossible to modify : " + firestation);
 		}
 	}
 
 	@DeleteMapping("/firestation")
-	public String deleteFirestation(final Firestation firestation) {
+	public void deleteFirestation(@RequestBody final Firestation firestation) {
 		if (firestationService.deleteFirestation(firestation)) {
-			return ("firestation deleted : " + firestation);
+			logger.info("firestation deleted : " + firestation);
 		} else {
-			return ("sorry, impossible to delete : " + firestation);
+			logger.error("sorry, impossible to delete : " + firestation);
 		}
 	}
 }

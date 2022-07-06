@@ -1,10 +1,13 @@
 package com.safetynetalerts.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class PersonInFirestation {
 	private String firstName;
 	private String lastName;
 	private String address;
 	private String phone;
+	@JsonIgnore
 	private int age;
 
 	public String getFirstName() {

@@ -42,4 +42,10 @@ public class ChildAlert {
 		this.homeMembers = homeMembers;
 	}
 
+	@Override
+	public String toString() {
+		return "ChildAlert [firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", homeMembers="
+				+ homeMembers + "]";
+	}
+
 }

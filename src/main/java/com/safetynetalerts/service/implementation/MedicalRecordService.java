@@ -28,14 +28,16 @@ public class MedicalRecordService implements IMedicalRecordService {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public int getAge(String firstName, String lastName) {
+		logger.info("calculate age of : " + firstName + " " + lastName);
 		String birthDate = getBirthDate(firstName, lastName);
 		return (int) ChronoUnit.YEARS.between(LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("MM/dd/yyyy")),
 				LocalDate.now());
 	}
 
 	private String getBirthDate(String firstName, String lastName) {
+		logger.info("get birthdate of : " + firstName + " " + lastName);
 		for (MedicalRecord medicalRecord : repo.getMedicalRecords()) {
-			logger.info("iterate : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+			logger.trace("iterate : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
 			if (medicalRecord.getFirstName().equals(firstName) && medicalRecord.getLastName().equals(lastName)) {
 				logger.info("Found, birthDate is : " + medicalRecord.getBirthdate());
 				return medicalRecord.getBirthdate();
@@ -46,8 +48,9 @@ public class MedicalRecordService implements IMedicalRecordService {
 	}
 
 	public List<String> getMedications(String firstName, String lastName) {
+		logger.info("get medical records of : " + firstName + " " + lastName);
 		for (MedicalRecord medicalRecord : repo.getMedicalRecords()) {
-			logger.info("iterate : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+			logger.trace("iterate : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
 			if (medicalRecord.getFirstName().equals(firstName) && medicalRecord.getLastName().equals(lastName)) {
 				logger.info("Found, medications are : " + medicalRecord.getMedications());
 				return medicalRecord.getMedications();
@@ -58,8 +61,9 @@ public class MedicalRecordService implements IMedicalRecordService {
 	}
 
 	public List<String> getAllergies(String firstName, String lastName) {
+		logger.info("get allergies of : " + firstName + " " + lastName);
 		for (MedicalRecord medicalRecord : repo.getMedicalRecords()) {
-			logger.info("iterate : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+			logger.trace("iterate : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
 			if (medicalRecord.getFirstName().equals(firstName) && medicalRecord.getLastName().equals(lastName)) {
 				logger.info("Found, allergies are : " + medicalRecord.getAllergies());
 				return medicalRecord.getAllergies();
@@ -103,8 +107,8 @@ public class MedicalRecordService implements IMedicalRecordService {
 							&& (medicalRecordLoop.getAllergies().equals(medicalRecord.getAllergies()))))) {
 				medicalRecordLoop = medicalRecord;
 				modified = true;
-				logger.info("medical record : " + medicalRecord + "modified");
 			}
+			logger.info("medical record : " + medicalRecordLoop + "modified");
 			modifiedMedicalRecords.add(medicalRecordLoop);
 		}
 		if (modified) {

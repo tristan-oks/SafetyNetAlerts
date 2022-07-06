@@ -1,5 +1,7 @@
 package com.safetynetalerts.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,32 +18,34 @@ public class MedicalRecordController {
 
 	@Autowired
 	private IMedicalRecordService medicalRecordService;
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@PostMapping("/medicalRecord")
-	public String addMedicalRecord(@RequestBody final MedicalRecord medicalRecord) {
+	public void addMedicalRecord(@RequestBody final MedicalRecord medicalRecord) {
 		if (medicalRecordService.addMedicalRecord(medicalRecord)) {
-			return ("medical record added : " + medicalRecord);
+			logger.info("medical record added : " + medicalRecord);
 		} else {
-			return ("medical record " + medicalRecord + " already exists, impossible to add it");
+			logger.error("medical record " + medicalRecord + " already exists, impossible to add it");
 		}
 	}
 
 	@PutMapping("/medicalRecord")
-	public String modifyMedicalRecord(final MedicalRecord medicalRecord) {
+	public void modifyMedicalRecord(@RequestBody final MedicalRecord medicalRecord) {
 		if (medicalRecordService.modifyMedicalRecord(medicalRecord)) {
-			return ("medical record modified : " + medicalRecord);
+			logger.info("medical record modified : " + medicalRecord);
 		} else {
-			return ("sorry, impossible to modify : " + medicalRecord);
+			logger.error("sorry, impossible to modify : " + medicalRecord);
 		}
 	}
 
 	@DeleteMapping("/medicalRecord")
-	public String deleteMedicalRecord(@RequestParam(name = "firstName") final String firstName,
+	public void deleteMedicalRecord(@RequestParam(name = "firstName") final String firstName,
 			@RequestParam(name = "lastName") final String lastName) {
 		if (medicalRecordService.deleteMedicalRecord(firstName, lastName)) {
-			return ("medical record of : " + firstName + " " + lastName + " deleted");
+			logger.info("medical record of : " + firstName + " " + lastName + " deleted");
 		} else {
-			return ("sorry, impossible to delete medical record of : " + firstName + " " + lastName);
+			logger.error("sorry, impossible to delete medical record of : " + firstName + " " + lastName);
 		}
 	}
 }

@@ -3,11 +3,14 @@ package com.safetynetalerts.controller;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,13 +26,15 @@ public class PersonController {
 
 	@Autowired
 	private IPersonService personService;
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@GetMapping("/communityEmail")
 	public Set<String> getEmailsOfPersonsInCity(@RequestParam(name = "city") final String city) {
 		return personService.getEmailsOfPersonsInCity(city);
 	}
 
-	@GetMapping("/childsAtAddress")
+	@GetMapping("/childAlert")
 	public List<ChildAlert> getChildsAtAddressWithFamily(@RequestParam(name = "address") final String address) {
 		return personService.getChildsAtAddressWithFamily(address);
 	}
@@ -51,30 +56,30 @@ public class PersonController {
 	}
 
 	@PostMapping("/person")
-	public String addPerson(final Person person) {
+	public void addPerson(@RequestBody final Person person) {
 		if (personService.addPerson(person)) {
-			return ("person added : " + person);
+			logger.info("person added : " + person);
 		} else {
-			return ("person " + person + " already exists, impossible to add her/him");
+			logger.error("person " + person + " already exists, impossible to add her/him");
 		}
 	}
 
 	@PutMapping("/person")
-	public String modifyPerson(final Person person) {
+	public void modifyPerson(@RequestBody final Person person) {
 		if (personService.modifyPerson(person)) {
-			return ("person modified : " + person);
+			logger.info("person modified : " + person);
 		} else {
-			return ("sorry, impossible to modify : " + person);
+			logger.error("sorry, impossible to modify : " + person);
 		}
 	}
 
 	@DeleteMapping("/person")
-	public String deletePerson(@RequestParam(name = "firstName") final String firstName,
+	public void deletePerson(@RequestParam(name = "firstName") final String firstName,
 			@RequestParam(name = "lastName") final String lastName) {
 		if (personService.deletePerson(firstName, lastName)) {
-			return ("person deleted : " + firstName + " " + lastName);
+			logger.info("person deleted : " + firstName + " " + lastName);
 		} else {
-			return ("sorry, impossible to delete : " + firstName + " " + lastName);
+			logger.error("sorry, impossible to delete : " + firstName + " " + lastName);
 		}
 	}
 }

@@ -37,20 +37,23 @@ public class FirestationService implements IFirestationService {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public List<String> getFirestationAddress(int station) {
+		logger.info("get addresses covered by firestation n° : " + station);
 		List<String> addresses = new ArrayList<String>();
 		for (Firestation firestation : firestationRepo.getFirestations()) {
-			logger.info("iterate : " + firestation);
+			logger.trace("iterate : " + firestation);
 			if (firestation.getStation() == station) {
 				logger.info("found : " + firestation);
 				addresses.add(firestation.getAddress());
 			}
 		}
+		logger.info("addresses found : " + addresses);
 		return addresses;
 	}
 
 	public int getFirestationNumber(String address) {
+		logger.info("get number of station covering address : " + address);
 		for (Firestation firestation : firestationRepo.getFirestations()) {
-			logger.info("iterate : " + firestation);
+			logger.trace("iterate : " + firestation);
 			if (firestation.getAddress().equals(address)) {
 				logger.info("found : " + firestation);
 				return firestation.getStation();
@@ -68,7 +71,7 @@ public class FirestationService implements IFirestationService {
 		logger.info("stationAddressList : " + stationAddressList);
 
 		for (Person person : personRepo.getPersons()) {
-			logger.info("iterate : " + person + ", address : " + person.getAddress());
+			logger.trace("iterate : " + person + ", address : " + person.getAddress());
 			if (stationAddressList.contains(person.getAddress())) {
 				PersonInFirestation personToAdd = new PersonInFirestation();
 				personToAdd.setFirstName(person.getFirstName());
@@ -81,17 +84,19 @@ public class FirestationService implements IFirestationService {
 				personsInFirestation.add(personToAdd);
 			}
 		}
+		logger.info("persons covered by station " + station + " : " + personsInFirestation);
 		return personsInFirestation;
 	}
 
 	public PersonsInFirestationWithCount personsInFirestationWithCount(int station) {
+		logger.info("get persons covered by firestation " + station + ", counting adults and childs");
 		PersonsInFirestationWithCount personsInFirestationWithCount = new PersonsInFirestationWithCount();
 		int adults = 0;
 		int childrens = 0;
 
 		List<PersonInFirestation> personsInFirestation = getPersonsInFireStation(station);
 		for (PersonInFirestation personInFirestation : personsInFirestation) {
-			logger.info("countIterate : " + personInFirestation);
+			logger.trace("countIterate : " + personInFirestation);
 			if (personInFirestation.getAge() < 18) {
 				childrens += 1;
 			} else {
@@ -101,14 +106,21 @@ public class FirestationService implements IFirestationService {
 		personsInFirestationWithCount.setPersonsInFireStation(personsInFirestation);
 		personsInFirestationWithCount.setAdults(adults);
 		personsInFirestationWithCount.setChildrens(childrens);
+		logger.info("adults : " + adults + ", childs : " + childrens);
 		return personsInFirestationWithCount;
 	}
 
 	public Set<String> getPhoneOfPersonsInFirestation(int station) {
 		Set<String> phones = new HashSet<String>();
-		for (PersonInFirestation personInFirestation : getPersonsInFireStation(station)) {
-			phones.add(personInFirestation.getPhone());
-			logger.info("phone added : " + personInFirestation.getPhone());
+		List<String> stationAddressList = getFirestationAddress(station);
+		logger.info("stationAddressList : " + stationAddressList);
+
+		for (Person person : personRepo.getPersons()) {
+			logger.trace("iterate : " + person + ", address : " + person.getAddress());
+			if (stationAddressList.contains(person.getAddress())) {
+				phones.add(person.getPhone());
+				logger.info("phone added : " + person.getPhone());
+			}
 		}
 		return phones;
 	}
