@@ -23,7 +23,6 @@ public class JsonRepository {
 			return parsedJson;
 		} catch (IOException e) {
 			logger.error("Impossible to parse " + filename + "\n" + e.toString());
-			// ;
 			return null;
 		}
 	}
@@ -33,8 +32,7 @@ public class JsonRepository {
 		try {
 			mapper.writeValue(Paths.get(filename).toFile(), json);
 		} catch (IOException e) {
-			logger.error("Impossible to write " + filename);
-			e.printStackTrace();
+			logger.error("Impossible to write " + filename + "\n" + e.toString());
 		}
 	}
 }

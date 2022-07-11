@@ -46,7 +46,7 @@ public class FirestationControllerTests {
 	public void testFailedAddFirestation() throws Exception {
 		mockMvc.perform(post("/firestation").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"address\":\"29 15th St\",\"station\":\"2\"}"))
-				.andExpect(status().isOk());
+				.andExpect(status().is(409));
 	}
 	
 	@Test
@@ -60,7 +60,7 @@ public class FirestationControllerTests {
 	public void testFailedModifyFirestation() throws Exception {
 		mockMvc.perform(put("/firestation").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"address\":\"1 rue du test\",\"station\":\"6\"}"))
-				.andExpect(status().isOk());
+				.andExpect(status().is(409));
 	}
 	
 	@Test
@@ -74,7 +74,7 @@ public class FirestationControllerTests {
 	public void testFailedDeleteFirestation() throws Exception {
 		mockMvc.perform(delete("/firestation").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"address\":\"1 rue du Test\",\"station\":\"2\"}"))
-				.andExpect(status().isOk());
+				.andExpect(status().is(404));
 	}
 	
 }

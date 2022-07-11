@@ -33,11 +33,11 @@ public class MedicalRecordControllerTests {
 	public void testFailedAddMedicalRecord() throws Exception {
 		mockMvc.perform(post("/medicalRecord").contentType(MediaType.APPLICATION_JSON)
 				.content("{" + "\"firstName\":\"John\"," + "\"lastName\" :\"Boyd\"," + "\"birthdate\":\"03/06/1984\","
-						+ "\"medications\":[\"aznol:350mg\", \"hydrapermazol:100mg\"]," + "\"allergies\":[\"nillacilan\"]"
-						+ "}"))
-				.andExpect(status().isOk());
+						+ "\"medications\":[\"aznol:350mg\", \"hydrapermazol:100mg\"],"
+						+ "\"allergies\":[\"nillacilan\"]" + "}"))
+				.andExpect(status().is(409));
 	}
-	
+
 	@Test
 	public void testSuccessfullModifyMedicalRecord() throws Exception {
 		mockMvc.perform(put("/medicalRecord").contentType(MediaType.APPLICATION_JSON)
@@ -51,9 +51,9 @@ public class MedicalRecordControllerTests {
 	public void testFailedModifyMedicalRecord() throws Exception {
 		mockMvc.perform(put("/medicalRecord").contentType(MediaType.APPLICATION_JSON)
 				.content("{" + "\"firstName\":\"John\"," + "\"lastName\" :\"Boyd\"," + "\"birthdate\":\"03/06/1984\","
-						+ "\"medications\":[\"aznol:350mg\", \"hydrapermazol:100mg\"]," + "\"allergies\":[\"nillacilan\"]"
-						+ "}"))
-				.andExpect(status().isOk());
+						+ "\"medications\":[\"aznol:350mg\", \"hydrapermazol:100mg\"],"
+						+ "\"allergies\":[\"nillacilan\"]" + "}"))
+				.andExpect(status().is(409));
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class MedicalRecordControllerTests {
 		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("firstName", "Unknown");
 		params.add("lastName", "Person");
-		mockMvc.perform(delete("/medicalRecord").params(params)).andExpect(status().isOk());
+		mockMvc.perform(delete("/medicalRecord").params(params)).andExpect(status().is(404));
 	}
 
 }

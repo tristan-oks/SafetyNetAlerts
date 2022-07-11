@@ -71,7 +71,7 @@ public class PersonControllerTests {
 		mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"firstName\":\"John\",\"lastName\" :\"Boyd\",\"address\":\"1509 Culver St\","
 						+ "\"city\":\"Culver\",\"zip\":\"97451\",\"phone\":\"841-874-6512\",\"email\":\"jaboyd@email.com\"}"))
-				.andExpect(status().isOk());
+				.andExpect(status().is(409));
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class PersonControllerTests {
 		mockMvc.perform(put("/person").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"firstName\":\"John\",\"lastName\" :\"Boyd\",\"address\":\"1509 Culver St\","
 						+ "\"city\":\"Culver\",\"zip\":\"97451\",\"phone\":\"841-874-6512\",\"email\":\"jaboyd@email.com\"}"))
-				.andExpect(status().isOk());
+				.andExpect(status().is(409));
 	}
 
 	@Test
@@ -103,6 +103,6 @@ public class PersonControllerTests {
 		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("firstName", "Unknown");
 		params.add("lastName", "Person");
-		mockMvc.perform(delete("/person").params(params)).andExpect(status().isOk());
+		mockMvc.perform(delete("/person").params(params)).andExpect(status().is(404));
 	}
 }

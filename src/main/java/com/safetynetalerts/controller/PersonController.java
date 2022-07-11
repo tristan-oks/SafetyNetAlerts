@@ -6,6 +6,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,7 @@ public class PersonController {
 
 	@Autowired
 	private IPersonService personService;
-	
+
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@GetMapping("/communityEmail")
@@ -56,30 +58,36 @@ public class PersonController {
 	}
 
 	@PostMapping("/person")
-	public void addPerson(@RequestBody final Person person) {
+	public ResponseEntity<Void> addPerson(@RequestBody final Person person) {
 		if (personService.addPerson(person)) {
 			logger.info("person added : " + person);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			logger.error("person " + person + " already exists, impossible to add her/him");
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
 
 	@PutMapping("/person")
-	public void modifyPerson(@RequestBody final Person person) {
+	public ResponseEntity<Void> modifyPerson(@RequestBody final Person person) {
 		if (personService.modifyPerson(person)) {
 			logger.info("person modified : " + person);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			logger.error("sorry, impossible to modify : " + person);
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
 
 	@DeleteMapping("/person")
-	public void deletePerson(@RequestParam(name = "firstName") final String firstName,
+	public ResponseEntity<Void> deletePerson(@RequestParam(name = "firstName") final String firstName,
 			@RequestParam(name = "lastName") final String lastName) {
 		if (personService.deletePerson(firstName, lastName)) {
 			logger.info("person deleted : " + firstName + " " + lastName);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			logger.error("sorry, impossible to delete : " + firstName + " " + lastName);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 }
