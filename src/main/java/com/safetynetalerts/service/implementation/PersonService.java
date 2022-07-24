@@ -121,9 +121,12 @@ public class PersonService implements IPersonService {
 			personsWithMedicalRecordToAdd.setFirstName(person.getFirstName());
 			personsWithMedicalRecordToAdd.setLastName(person.getLastName());
 			personsWithMedicalRecordToAdd.setPhone(person.getPhone());
-			personsWithMedicalRecordToAdd.setAge(medicalRecordService.getAge(person.getFirstName(), person.getLastName()));
-			personsWithMedicalRecordToAdd.setMedications(medicalRecordService.getMedications(person.getFirstName(), person.getLastName()));
-			personsWithMedicalRecordToAdd.setAllergies(medicalRecordService.getAllergies(person.getFirstName(), person.getLastName()));
+			personsWithMedicalRecordToAdd
+					.setAge(medicalRecordService.getAge(person.getFirstName(), person.getLastName()));
+			personsWithMedicalRecordToAdd
+					.setMedications(medicalRecordService.getMedications(person.getFirstName(), person.getLastName()));
+			personsWithMedicalRecordToAdd
+					.setAllergies(medicalRecordService.getAllergies(person.getFirstName(), person.getLastName()));
 			personsWithMedicalRecord.add(personsWithMedicalRecordToAdd);
 			logger.info("person at address with medical records added : " + personsWithMedicalRecordToAdd);
 		}
@@ -180,7 +183,6 @@ public class PersonService implements IPersonService {
 	public boolean addPerson(Person person) {
 		logger.info("person to add : " + person);
 		List<Person> persons = repo.getPersons();
-		// if (persons.contains(person)) {
 		for (Person personLoop : persons) {
 			if ((personLoop.getFirstName().equals(person.getFirstName()))
 					&& (personLoop.getLastName().equals(person.getLastName()))
@@ -204,7 +206,6 @@ public class PersonService implements IPersonService {
 		logger.info("person to modify : " + person);
 		boolean modified = false;
 		List<Person> modifiedPersons = new ArrayList<Person>();
-		// if (persons.contains(person)) {
 		for (Person personLoop : repo.getPersons()) {
 			if ((personLoop.getFirstName().equals(person.getFirstName()))
 					&& (personLoop.getLastName().equals(person.getLastName()))

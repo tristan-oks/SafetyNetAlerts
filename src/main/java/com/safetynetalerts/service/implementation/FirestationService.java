@@ -128,8 +128,6 @@ public class FirestationService implements IFirestationService {
 	public boolean addFirestation(Firestation firestation) {
 		logger.info("firestation to add : " + firestation);
 		List<Firestation> firestations = firestationRepo.getFirestations();
-		// This .contains doesn't work :(
-		// if (firestations.contains(firestation)) {
 		for (Firestation firestationLoop : firestations) {
 			if ((firestationLoop.getAddress().equals(firestation.getAddress())
 					&& (firestationLoop.getStation() == firestation.getStation()))) {

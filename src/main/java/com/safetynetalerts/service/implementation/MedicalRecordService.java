@@ -98,7 +98,6 @@ public class MedicalRecordService implements IMedicalRecordService {
 		logger.info("medical record to modify : " + medicalRecord);
 		boolean modified = false;
 		List<MedicalRecord> modifiedMedicalRecords = new ArrayList<MedicalRecord>();
-		// if (persons.contains(person)) {
 		for (MedicalRecord medicalRecordLoop : repo.getMedicalRecords()) {
 			if ((medicalRecordLoop.getFirstName().equals(medicalRecord.getFirstName()))
 					&& (medicalRecordLoop.getLastName().equals(medicalRecord.getLastName()))
